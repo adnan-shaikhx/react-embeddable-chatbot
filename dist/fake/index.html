@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedInClone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: #f3f2ef;
+            color: rgba(0, 0, 0, 0.9);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 0 12%;
+            height: 52px;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            color: #0a66c2;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0 12px;
+            position: relative;
+            text-align: center;
+        }
+        
+        .nav-links a {
+            color: rgba(0, 0, 0, 0.6);
+            text-decoration: none;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 8px;
+        }
+        
+        .nav-links a:hover {
+            color: rgba(0, 0, 0, 0.9);
+        }
+        
+        .nav-links i {
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+        
+        .search-box {
+            background-color: #eef3f8;
+            border-radius: 4px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            width: 280px;
+        }
+        
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            margin-left: 5px;
+        }
+        
+        .main-container {
+            display: flex;
+            justify-content: center;
+            padding: 24px 12%;
+            gap: 24px;
+        }
+        
+        .sidebar {
+            flex: 0 0 225px;
+        }
+        
+        .content {
+            flex: 0 0 550px;
+        }
+        
+        .widgets {
+            flex: 0 0 300px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        
+        .profile-card {
+            text-align: center;
+            position: relative;
+        }
+        
+        .profile-background {
+            height: 56px;
+            background-color: #a0b4b7;
+        }
+        
+        .profile-picture {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background-color: #f3f2ef;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .profile-info {
+            padding: 48px 12px 12px;
+        }
+        
+        .profile-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .profile-headline {
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.6);
+            margin-bottom: 12px;
+        }
+        
+        .profile-stats {
+            border-top: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding: 3px 0;
+        }
+        
+        .stat-label {
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .stat-value {
+            color: #0a66c2;
+            font-weight: 600;
+        }
+        
+        .create-post {
+            padding: 16px;
+        }
+        
+        .post-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .post-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #f3f2ef;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .post-input input {
+            flex: 1;
+            border: 1px solid #e0e0e0;
+            border-radius: 35px;
+            padding: 12px 16px;
+            outline: none;
+            font-size: 14px;
+        }
+        
+        .post-input input:hover {
+            background-color: rgba(0, 0, 0, 0.04);
+        }
+        
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .post-action {
+            display: flex;
+            align-items: center;
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .post-action:hover {
+            background-color: rgba(0, 0, 0, 0.04);
+        }
+        
+        .post-action i {
+            margin-right: 8px;
+        }
+        
+        .news-card {
+            padding: 16px;
+        }
+        
+        .news-card h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .news-item {
+            display: flex;
+            margin-bottom: 12px;
+            align-items: flex-start;
+        }
+        
+        .news-bullet {
+            margin-right: 8px;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .news-content {
+            font-size: 14px;
+        }
+        
+        .news-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .news-metadata {
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 12px;
+        }
+        
+        .post {
+            padding: 16px;
+        }
+        
+        .post-header {
+            display: flex;
+            margin-bottom: 12px;
+        }
+        
+        .post-avatar {
+            margin-right: 12px;
+        }
+        
+        .post-author {
+            flex: 1;
+        }
+        
+        .post-author-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .post-author-headline {
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .post-time {
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .post-body {
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .post-image {
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .post-footer {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 4px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .post-reaction {
+            display: flex;
+            align-items: center;
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .post-reaction:hover {
+            background-color: rgba(0, 0, 0, 0.04);
+        }
+        
+        .post-reaction i {
+            margin-right: 6px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 16px;
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 12px;
+        }
+        
+        /* Icons */
+        .fa {
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .navbar, .main-container {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+            
+            .widgets {
+                display: none;
+            }
+            
+            .content {
+                flex: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .search-box {
+                width: auto;
+                flex: 1;
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">in</div>
+        <div class="search-box">
+            <i class="fa fa-search">🔍</i>
+            <input type="text" placeholder="Search">
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="#">
+                    <i class="fa fa-home">🏠</i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-users">👥</i>
+                    <span>My Network</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-briefcase">💼</i>
+                    <span>Jobs</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-comment">💬</i>
+                    <span>Messaging</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-bell">🔔</i>
+                    <span>Notifications</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-user">👤</i>
+                    <span>Me</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <div class="card profile-card">
+                <div class="profile-background"></div>
+                <div class="profile-picture">👤</div>
+                <div class="profile-info">
+                    <div class="profile-name">John Doe</div>
+                    <div class="profile-headline">Software Engineer at Tech Company</div>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Who viewed your profile</span>
+                        <span class="stat-value">45</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Views of your post</span>
+                        <span class="stat-value">152</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">My Items</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Groups</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Events</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Followed Hashtags</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="content">
+            <div class="card create-post">
+                <div class="post-input">
+                    <div class="post-avatar">👤</div>
+                    <input type="text" placeholder="Start a post">
+                </div>
+                <div class="post-actions">
+                    <div class="post-action">
+                        <i class="fa fa-image">📷</i>
+                        <span>Photo</span>
+                    </div>
+                    <div class="post-action">
+                        <i class="fa fa-video">🎥</i>
+                        <span>Video</span>
+                    </div>
+                    <div class="post-action">
+                        <i class="fa fa-calendar">📅</i>
+                        <span>Event</span>
+                    </div>
+                    <div class="post-action">
+                        <i class="fa fa-newspaper">📝</i>
+                        <span>Article</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card post">
+                <div class="post-header">
+                    <div class="post-avatar">👤</div>
+                    <div class="post-author">
+                        <div class="post-author-name">Jane Smith</div>
+                        <div class="post-author-headline">Marketing Manager at Big Company</div>
+                        <div class="post-time">2h ago</div>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <p>Excited to announce our new product launch! It's been months in the making and the team has done an incredible job. #ProductLaunch #Innovation</p>
+                </div>
+                <img src="/api/placeholder/550/300" alt="Product Launch" class="post-image">
+                <div class="post-footer">
+                    <div class="post-reaction">
+                        <i class="fa fa-thumbs-up">👍</i>
+                        <span>Like</span>
+                    </div>
+                    <div class="post-reaction">
+                        <i class="fa fa-comment">💬</i>
+                        <span>Comment</span>
+                    </div>
+                    <div class="post-reaction">
+                        <i class="fa fa-share">↗️</i>
+                        <span>Share</span>
+                    </div>
+                    <div class="post-reaction">
+                        <i class="fa fa-paper-plane">✉️</i>
+                        <span>Send</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card post">
+                <div class="post-header">
+                    <div class="post-avatar">👤</div>
+                    <div class="post-author">
+                        <div class="post-author-name">Tech Company</div>
+                        <div class="post-author-headline">Technology · 125,678 followers</div>
+                        <div class="post-time">1d ago</div>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <p>We're hiring! Join our team of talented engineers and help us build the future of technology. Apply now through our careers page. #Hiring #TechJobs</p>
+                </div>
+                <div class="post-footer">
+                    <div class="post-reaction">
+                        <i class="fa fa-thumbs-up">👍</i>
+                        <span>Like</span>
+                    </div>
+                    <div class="post-reaction">
+                        <i class="fa fa-comment">💬</i>
+                        <span>Comment</span>
+                    </div>
+                    <div class="post-reaction">
+                        <i class="fa fa-share">↗️</i>
+                        <span>Share</span>
+                    </div>
+                    <div class="post-reaction">
+                        <i class="fa fa-paper-plane">✉️</i>
+                        <span>Send</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar Widgets -->
+        <div class="widgets">
+            <div class="card news-card">
+                <h3>LinkedIn News</h3>
+                <div class="news-item">
+                    <div class="news-bullet">•</div>
+                    <div class="news-content">
+                        <div class="news-title">Big Tech sees hiring surge</div>
+                        <div class="news-metadata">1d ago • 5,483 readers</div>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <div class="news-bullet">•</div>
+                    <div class="news-content">
+                        <div class="news-title">Remote work is here to stay</div>
+                        <div class="news-metadata">2d ago • 8,974 readers</div>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <div class="news-bullet">•</div>
+                    <div class="news-content">
+                        <div class="news-title">Startups raise record funding</div>
+                        <div class="news-metadata">3d ago • 4,295 readers</div>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <div class="news-bullet">•</div>
+                    <div class="news-content">
+                        <div class="news-title">AI transformation in healthcare</div>
+                        <div class="news-metadata">4d ago • 6,128 readers</div>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <div class="news-bullet">•</div>
+                    <div class="news-content">
+                        <div class="news-title">Renewable energy jobs boom</div>
+                        <div class="news-metadata">5d ago • 3,711 readers</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="news-card">
+                    <h3>Add to your feed</h3>
+                    <div class="news-item">
+                        <div class="post-avatar">👤</div>
+                        <div class="news-content">
+                            <div class="news-title">Tech Company</div>
+                            <div class="news-metadata">Company • Technology</div>
+                            <button style="margin-top: 8px; padding: 6px 16px; background: none; border: 1px solid #0a66c2; color: #0a66c2; border-radius: 16px; font-weight: 600;">+ Follow</button>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="post-avatar">👤</div>
+                        <div class="news-content">
+                            <div class="news-title">Sarah Williams</div>
+                            <div class="news-metadata">CEO at StartupX</div>
+                            <button style="margin-top: 8px; padding: 6px 16px; background: none; border: 1px solid #0a66c2; color: #0a66c2; border-radius: 16px; font-weight: 600;">+ Follow</button>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="post-avatar">👤</div>
+                        <div class="news-content">
+                            <div class="news-title">Innovation Hub</div>
+                            <div class="news-metadata">Company • Technology</div>
+                            <button style="margin-top: 8px; padding: 6px 16px; background: none; border: 1px solid #0a66c2; color: #0a66c2; border-radius: 16px; font-weight: 600;">+ Follow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>LinkedIn Clone &copy; 2025</p>
+    </div>
+    
+    <script src="./cbw-chatbot.iife.js"></script>
+    <!-- <script type="module" src="./cbw-chatbot.iife.js"></script> -->
+    <!-- <script src="https://dev-answeringlegal.ecosmob.net:8000/tenant/main.js/24326224313024775777516d4b57454a4b41304f67485570324377462e6172596d764d2e7a5a4e36654a77324a43346243354f764b4e474448654761" ></script> -->
+    <!-- Inject the chatbot script -->
+    <script>
+        // Add simple interactivity to the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click event to like buttons
+            const likeButtons = document.querySelectorAll('.post-reaction');
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.style.color = '#0a66c2';
+                });
+            });
+
+            // Make post input show an alert
+            const postInput = document.querySelector('.post-input input');
+            postInput.addEventListener('click', function() {
+                alert('This is a demo LinkedIn clone. Creating posts is not available.');
+            });
+
+            // Make follow buttons react to clicks
+            const followButtons = document.querySelectorAll('button');
+            followButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.textContent === '+ Follow') {
+                        this.textContent = 'Following';
+                        this.style.backgroundColor = '#0a66c2';
+                        this.style.color = 'white';
+                    } else {
+                        this.textContent = '+ Follow';
+                        this.style.backgroundColor = 'transparent';
+                        this.style.color = '#0a66c2';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
